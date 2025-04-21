@@ -40,14 +40,14 @@ router.get("/students", async (req, res) => {
 });
 
 router.get("/demo-slots", async (req, res) => {
-	try {
-	  const demoSlots = await sql`SELECT * FROM demo_slots`; // Replace 'demo_slots' with your actual table name
-	  res.json(demoSlots);
-	} catch (err) {
-	  console.error("Error fetching demo slots:", err);
-	  res.status(500).json({ error: "Error fetching demo slots" });
-	}
-  });
+  try {
+    const demoSlots = await sql`SELECT * FROM demo_slots`; // Replace 'demo_slots' with your actual table name
+    res.json(demoSlots);
+  } catch (err) {
+    console.error("Error fetching demo slots:", err);
+    res.status(500).json({ error: "Error fetching demo slots" });
+  }
+});
 
 // Corresponds to: POST /api/students
 // Creates a new student in the db and gives a confirmation message
