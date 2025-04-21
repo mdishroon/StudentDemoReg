@@ -1,6 +1,4 @@
 # Student Registration Demo
-> [!NOTE]
-> Adding a new recipe will add it for everyone else who visits (and I haven't implemented deletion), so try not to spam with filler data or add anything inappropriate ~~Mollie~~.
 
 ## Running
 
