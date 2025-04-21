@@ -63,4 +63,12 @@ router.post("/students", async (req, res) => {
 	  }
 	});
   });
+
+  // Starts the server and listens on port 5173
+ViteExpress.listen(app, 5173, () => {
+	console.log("Server is listening on port 5173.");
+  });
+  
+  // We're exporting so Vercel can reuse it
+  export default app;
   
