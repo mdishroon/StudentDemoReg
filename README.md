@@ -1,6 +1,6 @@
 # Student Registration Demo
 This project is a web-based registration system for student project demonstrations. It allows students to register for available time slots to present their projects.
-Features
+# Features
 
 - Student registration form with validation
 - Dynamic display of available time slots
