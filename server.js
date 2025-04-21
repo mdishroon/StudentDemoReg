@@ -11,23 +11,17 @@ import formidable from "formidable";
 // Seamless integration for Express with Vite during development
 import ViteExpress from "vite-express";
 
-import cors from "cors";
-
-import bodyParser from "body-parser";
-
 // Interacting with our database
 import { neon } from "@neondatabase/serverless";
+
+// Uploading and storing images
+import { put } from "@vercel/blob";
 
 const app = express();
 const router = express.Router();
 
 // Connect to the database
 const sql = neon(process.env.DATABASE_URL);
-
-
-// Middleware
-app.use(cors());
-app.use(bodyParser.json());  // Handle JSON requests
 
 // Prefix all routes with "/api"
 app.use("/api", router);
