@@ -27,45 +27,60 @@ const sql = neon(process.env.DATABASE_URL);
 app.use("/api", router);
 
 /**
- * Corresponds to: GET /api/recipes
- * Returns a list of all recipes in the database to be displayed on the homepage
+ * Corresponds to: GET /api/students
+ * Returns a list of all students in the database to be displayed on the homepage
  */
-router.get("/recipes", async (req, res) => {
-	const recipes = await sql`SELECT * FROM recipes`;
+router.get("/students", async (req, res) => {
+	const students = await sql`SELECT * FROM students`;
 
-	// Send the recipes back to the client as JSON
-	res.json(recipes);
+	// Send the students back to the client as JSON
+	res.json(students);
 });
 
 /**
- * Corresponds to: POST /api/recipes
+ * Corresponds to: POST /api/students
  * Creates a new recipe in the database and redirects to the homepage
  */
-router.post("/recipes", async (req, res) => {
+router.post("/students", async (req, res) => {
 	const form = formidable();
 	const [fields, files] = await form.parse(req);
 
-	const image = files.image[0];
+	try {
+		const { fullName, email, studentId, number, projectDescription, demoDate, demoTime } = req.body;
 
-	// Convert textarea inputs into an array by splitting on newlines and trimming
-	// any trailing/leading whitespace
-	const ingredients = fields.ingredients[0].split("\n").map((i) => i.trim());
-	const instructions = fields.instructions[0].split("\n").map((i) => i.trim());
+		if (!fullName || !email || !studentId || !number || !projectDescription || !demoDate || !demoTime) {
+			return res.status(400).json({ error: "Missing required fields" });
+		}
 
-	// Read the uploaded file into a buffer
-	const buffer = await fs.readFile(image.filepath);
+		// Regex checks
+		const nameRegex = /^[A-Za-z]+(?:\s[A-Za-z]+)+$/; // First and last name only, letters, separated by space
+		const idRegex = /^\d{8}$/;
+		const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/;
+		const phoneRegex = /^\d{3}-\d{3}-\d{4}$/;
 
-	// Upload the image to our blob storage and get the URL to be stored in the
-	// database
-	const blob = await put(image.originalFilename, buffer, {
-		access: "public",
-	});
+		if (!nameRegex.test(fullName)) {
+			return res.status(400).json({ error: "Name must include first and last name using letters only" });
+		}
+		if (!idRegex.test(studentId)) {
+			return res.status(400).json({ error: "Student ID must be exactly 8 digits" });
+		}
+		if (!emailRegex.test(email)) {
+			return res.status(400).json({ error: "Invalid email format" });
+		}
+		if (!phoneRegex.test(number)) {
+			return res.status(400).json({ error: "Phone number must be in the format 999-999-9999" });
+		}
+
+		const demo_slot = `${demoDate} ${demoTime}`;
+
 
 	// Insert the recipe into the database
 	await sql`
-		INSERT INTO recipes (name, description, image_url, ingredients, instructions)
-		VALUES (${fields.name[0]}, ${fields.description[0]}, ${blob.url}, ${ingredients}, ${instructions})
+		INSERT INTO students (student_id, name, email, phone_number, project_name, demo_slot)
+		VALUES (${studentId}, ${fullName}, ${email}, ${number}, ${projectDescription}, ${demo_slot})
 	`;
+
+	res.status(201).json({ message: "Student registered successfully" });
 
 	// Redirect to the homepage
 	res.redirect(303, "/");
