@@ -7,7 +7,7 @@ Dynamic display of available time slots
 Database storage of registration data
 View of all registered students
 
-#Technology Stack (In-Depth Explanation Below)
+# Technology Stack (In-Depth Explanation Below)
 
 Frontend: HTML, CSS, JavaScript
 Backend: PHP
