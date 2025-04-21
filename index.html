@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Demo Registration</title>
     <link rel="stylesheet" href="styles.css">
-	<script src="script.js"></script>
-	<link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
     <div class="container">
@@ -15,11 +14,11 @@
             <p>Register for your upcoming class presentation!</p>
         </header>
 
-		<div class="regList">
-			<a href="regList.html"> <button id="listBtn">See Registration List</button></a>
-			<a href="https://github.com/mdishroon"><button id="listBtn">Check Out My Github Link!</button></a>
-			<a href="https://canvas.wayne.edu/"><button id="listBtn">Wayne State Canvas</button></a>
-		</div>
+        <div class="regList">
+            <a href="regList.html"> <button id="listBtn">See Registration List</button></a>
+            <a href="https://github.com/mdishroon"><button id="listBtn">Check Out My Github Link!</button></a>
+            <a href="https://canvas.wayne.edu/"><button id="listBtn">Wayne State Canvas</button></a>
+        </div>
         
         <form id="registrationForm">
             <div class="form-group">
@@ -37,9 +36,10 @@
                 <input type="text" id="studentId" name="studentId" required>
             </div>
 
-			<div class="form-group">
+            <div class="form-group">
                 <label for="number">Phone Number</label>
                 <input type="text" id="number" name="number" required>
+                <small>Format: 999-999-9999</small>
             </div>
             
             <div class="form-group">
@@ -54,20 +54,10 @@
             </div>
             
             <div class="form-group">
-                <label for="demoDate">Preferred Demo Date</label>
-                <input type="date" id="demoDate" name="demoDate" required>
-            </div>
-            
-            <div class="form-group">
                 <label for="demoTime">Preferred Time Slot</label>
                 <select id="demoTime" name="demoTime" required>
                     <option value="">Select a time slot</option>
-                    <option value="9-10">4/19/2070, 9:00 AM - 10:00 AM</option>
-                    <option value="10-11">4/19/2070, 10:00 AM - 11:00 AM</option>
-                    <option value="11-12">4/19/2070, 11:00 AM - 12:00 PM</option>
-                    <option value="1-2">4/19/2070, 1:00 PM - 2:00 PM</option>
-                    <option value="2-3">4/19/2070, 2:00 PM - 3:00 PM</option>
-                    <option value="3-4">4/19/2070, 3:00 PM - 4:00 PM</option>
+                    <!-- Time slots will be loaded dynamically from the database -->
                 </select>
             </div>
             
@@ -83,7 +73,7 @@
             
             <div class="form-group checkbox-group">
                 <input type="checkbox" id="confirmation" name="confirmation" required>
-                <label for="confirmation">I confirm that I am prepared to give my demonstration on the selected date</label>
+                <label for="confirmation">I confirm that I am prepared to give my demonstration on the selected date and time</label>
             </div>
             
             <div class="form-buttons">
