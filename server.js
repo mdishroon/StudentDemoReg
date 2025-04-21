@@ -76,10 +76,10 @@ router.post("/students", async (req, res) => {
     }
 
     try {
-      const { fullName, email, studentId, number, projectDescription, demoTime } = fields;
+      const { fullName, email, studentId, number, projectDescription, demo_slot } = fields;
 
       // Check if all required fields are present
-      if (!fullName || !email || !studentId || !number || !projectDescription || !demoTime) {
+      if (!fullName || !email || !studentId || !number || !projectDescription || !demo_slot) {
         return res.status(400).json({ error: "Missing required fields" });
       }
 
