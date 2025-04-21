@@ -39,7 +39,7 @@ router.get("/students", async (req, res) => {
 
 /**
  * Corresponds to: POST /api/students
- * Creates a new recipe in the database and redirects to the homepage
+ * Creates a new student in the db and gives a confirmation message
  */
 router.post("/students", async (req, res) => {
 	const form = formidable();
@@ -74,7 +74,7 @@ router.post("/students", async (req, res) => {
 		const demo_slot = `${demoDate} ${demoTime}`;
 
 
-	// Insert the recipe into the database
+	// Insert the student into the database
 	await sql`
 		INSERT INTO students (student_id, name, email, phone_number, project_name, demo_slot)
 		VALUES (${studentId}, ${fullName}, ${email}, ${number}, ${projectDescription}, ${demo_slot})
@@ -83,7 +83,13 @@ router.post("/students", async (req, res) => {
 	res.status(201).json({ message: "Student registered successfully" });
 
 	// Redirect to the homepage
-	res.redirect(303, "/");
+	//res.redirect(303, "/");
+
+	// catch any errors
+	} catch (err) {
+		console.error("Error in POST /students:", err);
+		res.status(500).json({ error: "Server error" });
+	}
 });
 
 // Starts the server and listens on port 5173
