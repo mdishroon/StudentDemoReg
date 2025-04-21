@@ -103,6 +103,20 @@ button {
 button:active {
     transform: translateY(1px);
 }
+#listBtn {
+    position:relative;
+    justify-content: center;
+    margin-bottom: 30px;
+    background-color: #3498db;
+    color: white;
+    flex-grow: 2;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+#listBtn:hover {
+    background-color: #2980b9;
+}
 
 #submitBtn {
     background-color: #3498db;
