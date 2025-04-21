@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<link rel="preconnect" href="https://rsms.me/inter" />
+		<link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+
+		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
+
+		<title>Vite + Express App</title>
+	</head>
+
+	<body>
+		<header id="app-header">
+			<div class="header-container">
+				<a href="/"><h1>Demo App</h1></a>
+				<a href="./">Add recipe</a>
+			</div>
+		</header>
+
+		<main id="main">
+			<!--
+			method="post": makes this request a POST request
+			action="/api/recipes": the URL to send the request to
+			enctype="multipart/form-data": allows file uploads
+			-->
+			<form
+				id="recipe-form"
+				method="post"
+				action="/api/recipes"
+				enctype="multipart/form-data"
+			>
+				<div class="form-field">
+					<label for="name">Name</label>
+					<input
+						id="name"
+						name="name"
+						type="text"
+						placeholder="Enter recipe name"
+						required
+					/>
+				</div>
+
+				<div class="form-field">
+					<label for="description">Description (optional)</label>
+					<textarea
+						id="description"
+						name="description"
+						placeholder="Brief description of the recipe"
+					></textarea>
+				</div>
+
+				<div class="form-field">
+					<label for="ingredients">Ingredients</label>
+					<textarea
+						id="ingredients"
+						name="ingredients"
+						placeholder="Enter each ingredient on a new line"
+						required
+					></textarea>
+				</div>
+
+				<div class="form-field">
+					<label for="instructions">Instructions</label>
+					<textarea
+						id="instructions"
+						name="instructions"
+						placeholder="Enter each step on a new line"
+						required
+					></textarea>
+				</div>
+
+				<div class="form-field">
+					<label for="image">Image</label>
+					<input id="image" name="image" type="file" accept="image/*" required />
+				</div>
+
+				<div class="submit-wrapper">
+					<button type="submit">Submit</button>
+				</div>
+			</form>
+		</main>
+
+		<script type="module" src="./index.js"></script>
+	</body>
+</html>

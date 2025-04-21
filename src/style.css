@@ -1,0 +1,153 @@
+:root {
+	font-family: InterVariable, system-ui, sans-serif;
+	/* These are just to make font rendering look smoother */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+body {
+	margin: 0 auto;
+}
+
+/*
+Taking advantage of CSS nesting to avoid repetition
+https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_nesting/Using_CSS_nesting
+
+TL;DR:
+
+.foo {
+  color: red;
+
+  .bar {
+	color: blue;
+  }
+}
+
+is the same as:
+
+.foo {
+  color: red;
+}
+
+.foo .bar {
+  color: blue;
+}
+
+---
+
+rem units are relative to the root font size (which is commonly 16px)
+So 1rem = 16px.
+*/
+
+#app-header {
+	border-bottom: 1px solid #d4d4d4;
+	padding: 1rem 1.5rem;
+
+	.header-container {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+
+		h1 {
+			font-size: 1.25rem;
+			margin: 0;
+		}
+	}
+}
+
+#main {
+	max-width: 1280px;
+	margin: 0 auto;
+	padding-top: 3rem;
+}
+
+.recipes {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 1rem;
+}
+
+.card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	height: 650px;
+	border: 1px solid #d4d4d4;
+	border-radius: 0.75rem;
+	box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+	overflow: hidden;
+
+	.image {
+		/* Common 16:9 aspect ratios are 1280x720, 1920x1080, and 3840x2160 */
+		aspect-ratio: 16 / 9;
+		/* Fill the element without distorting the image */
+		object-fit: cover;
+		max-width: 100%;
+	}
+
+	.header {
+		display: flex;
+		flex-direction: column;
+		padding: 1.25rem;
+
+		.title {
+			font-weight: 600;
+			font-size: 1.25rem;
+			margin: 0;
+		}
+
+		.description {
+			font-size: 0.875rem;
+			line-height: 1.25rem;
+			margin-top: 0.375rem;
+			margin-bottom: 0;
+		}
+	}
+
+	[role="separator"] {
+		height: 1px;
+		margin: 0 1rem;
+		background-color: #d4d4d4;
+	}
+
+	.content-container {
+		position: relative;
+		/* "grow" this element to fill available space */
+		flex-grow: 1;
+
+		.scroll-shadow {
+			position: absolute;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			height: 2rem;
+			background: linear-gradient(to top, #ffffff, transparent);
+			z-index: 5;
+		}
+	}
+
+	.content {
+		position: absolute;
+		inset: 0;
+		padding: 1.25rem;
+		padding-top: 0;
+		/* Make this element scrollable */
+		overflow-y: auto;
+
+		.info h3 {
+			font-size: 1.125rem;
+			line-height: 1.75rem;
+			font-weight: 500;
+			margin-bottom: 0.5rem;
+		}
+
+		.info .list {
+			padding-left: 1.5rem;
+
+			/* Every child except the last */
+			& > :not(:last-child) {
+				margin-bottom: 0.5rem;
+			}
+		}
+	}
+}
