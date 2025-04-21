@@ -37,6 +37,41 @@
   
     <a href="index.html"><button id="backBtn">← Back to Registration</button></a>
 
+    <script>
+        async function loadStudents() {
+          try {
+            const response = await fetch("/api/students");
+            if (!response.ok) throw new Error("Failed to fetch student data.");
+    
+            const students = await response.json();
+            const tbody = document.getElementById("studentTableBody");
+    
+            // Clear any existing rows
+            tbody.innerHTML = "";
+    
+            // Populate rows
+            students.forEach((student) => {
+              const row = document.createElement("tr");
+              row.innerHTML = `
+                <td>${student.student_id}</td>
+                <td>${student.name}</td>
+                <td>${student.project_name}</td>
+                <td>${student.email}</td>
+                <td>${student.phone_number}</td>
+                <td>${student.demo_slot}</td>
+              `;
+              tbody.appendChild(row);
+            });
+          } catch (err) {
+            console.error("Error loading student list:", err);
+            const tbody = document.getElementById("studentTableBody");
+            tbody.innerHTML = `<tr><td colspan="6">Unable to load students.</td></tr>`;
+          }
+        }
+    
+        loadStudents();
+      </script>
+      
 </body>
 
 </html>
