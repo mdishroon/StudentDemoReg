@@ -11,11 +11,11 @@ import formidable from "formidable";
 // Seamless integration for Express with Vite during development
 import ViteExpress from "vite-express";
 
+import cors from "cors";
+import bodyParser from "body-parser";
+
 // Interacting with our database
 import { neon } from "@neondatabase/serverless";
-
-// Uploading and storing images
-import { put } from "@vercel/blob";
 
 const app = express();
 const router = express.Router();
@@ -23,80 +23,80 @@ const router = express.Router();
 // Connect to the database
 const sql = neon(process.env.DATABASE_URL);
 
+
+// Middleware
+app.use(cors());
+app.use(bodyParser.json());  // Handle JSON requests
+
 // Prefix all routes with "/api"
 app.use("/api", router);
 
-/**
+/** 
  * Corresponds to: GET /api/students
  * Returns a list of all students in the database to be displayed on the homepage
  */
 router.get("/students", async (req, res) => {
-	const students = await sql`SELECT * FROM students`;
-
-	// Send the students back to the client as JSON
-	res.json(students);
-});
+	try {
+	  const students = await sql`SELECT * FROM students`;
+	  res.json(students);
+	} catch (err) {
+	  console.error("Error fetching students:", err);
+	  res.status(500).json({ error: "Error fetching students" });
+	}
+  });
 
 /**
  * Corresponds to: POST /api/students
  * Creates a new student in the db and gives a confirmation message
  */
 router.post("/students", async (req, res) => {
-	const form = formidable();
-	const [fields, files] = await form.parse(req);
-
+	const { fullName, email, studentId, number, projectDescription, demoDate, demoTime } = req.body;
+  
+	// Validation: Ensure all required fields are filled
+	if (!fullName || !email || !studentId || !number || !projectDescription || !demoDate || !demoTime) {
+	  return res.status(400).json({ error: "Missing required fields" });
+	}
+  
+	// Regex validation
+	const nameRegex = /^[A-Za-z]+(?:\s[A-Za-z]+)+$/;
+	const idRegex = /^\d{8}$/;
+	const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/;
+	const phoneRegex = /^\d{3}-\d{3}-\d{4}$/;
+  
+	if (!nameRegex.test(fullName)) {
+	  return res.status(400).json({ error: "Name must include first and last name using letters only" });
+	}
+	if (!idRegex.test(studentId)) {
+	  return res.status(400).json({ error: "Student ID must be exactly 8 digits" });
+	}
+	if (!emailRegex.test(email)) {
+	  return res.status(400).json({ error: "Invalid email format" });
+	}
+	if (!phoneRegex.test(number)) {
+	  return res.status(400).json({ error: "Phone number must be in the format 999-999-9999" });
+	}
+  
+	const demo_slot = `${demoDate} ${demoTime}`;
+  
 	try {
-		const { fullName, email, studentId, number, projectDescription, demoDate, demoTime } = req.body;
-
-		if (!fullName || !email || !studentId || !number || !projectDescription || !demoDate || !demoTime) {
-			return res.status(400).json({ error: "Missing required fields" });
-		}
-
-		// Regex checks
-		const nameRegex = /^[A-Za-z]+(?:\s[A-Za-z]+)+$/; // First and last name only, letters, separated by space
-		const idRegex = /^\d{8}$/;
-		const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/;
-		const phoneRegex = /^\d{3}-\d{3}-\d{4}$/;
-
-		if (!nameRegex.test(fullName)) {
-			return res.status(400).json({ error: "Name must include first and last name using letters only" });
-		}
-		if (!idRegex.test(studentId)) {
-			return res.status(400).json({ error: "Student ID must be exactly 8 digits" });
-		}
-		if (!emailRegex.test(email)) {
-			return res.status(400).json({ error: "Invalid email format" });
-		}
-		if (!phoneRegex.test(number)) {
-			return res.status(400).json({ error: "Phone number must be in the format 999-999-9999" });
-		}
-
-		const demo_slot = `${demoDate} ${demoTime}`;
-
-
-	// Insert the student into the database
-	await sql`
+	  // Insert into the database
+	  await sql`
 		INSERT INTO students (student_id, name, email, phone_number, project_name, demo_slot)
 		VALUES (${studentId}, ${fullName}, ${email}, ${number}, ${projectDescription}, ${demo_slot})
-	`;
-
-	res.status(201).json({ message: "Student registered successfully" });
-
-	// Redirect to the homepage
-	//res.redirect(303, "/");
-
-	// catch any errors
+	  `;
+  
+	  // Return success message
+	  res.status(201).json({ message: "Student registered successfully" });
 	} catch (err) {
-		console.error("Error in POST /students:", err);
-		res.status(500).json({ error: "Server error" });
+	  console.error("Error in POST /students:", err);
+	  res.status(500).json({ error: "Server error" });
 	}
-});
-
-// Starts the server and listens on port 5173
-// http://localhost:5173
-ViteExpress.listen(app, 5173, () => {
+  });
+  
+  // Vite + Express server
+  ViteExpress.listen(app, 5173, () => {
 	console.log("Server is listening on port 5173.");
-});
+  });
 
 // We're exporting so Vercel can reuse it
 export default app;
