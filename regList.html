@@ -59,8 +59,8 @@
               
               // Format the demo time nicely
               let demoTimeDisplay = "Not scheduled";
-              if (student.demo_time) {
-                const demoTime = new Date(student.demo_time);
+              if (student.demo_slot_id) {
+                const demoTime = new Date(student.demo_slot_id);
                 demoTimeDisplay = demoTime.toLocaleString('en-US', {
                   weekday: 'short',
                   month: 'short', 
