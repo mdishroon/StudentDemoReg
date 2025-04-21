@@ -22,6 +22,29 @@ body {
     padding: 30px;
 }
 
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+    background-color: #fff;
+  }
+
+  th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  th {
+    background-color: #fc25cd;
+    color: white;
+  }
+
+  tr:hover {
+    background-color: #f1f1f1;
+  }
+
 /* Header styles */
 header {
     text-align: center;
@@ -116,6 +139,14 @@ button:active {
 
 #listBtn:hover {
     background-color: #2980b9;
+}
+
+#backBtn {
+    background-color: #db34a9;
+    color: white;
+    flex-grow: 2;
+    margin-right: 10px;
+    margin-top: 30px;
 }
 
 #submitBtn {
