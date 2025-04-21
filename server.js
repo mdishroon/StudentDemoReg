@@ -24,7 +24,7 @@ async function testDatabaseConnection() {
   });
 
   // testing complete after this
-  
+
 import fs from "node:fs/promises";
 
 // Server (https://expressjs.com/)
@@ -76,10 +76,10 @@ router.post("/students", async (req, res) => {
     }
 
     try {
-      const { fullName, email, studentId, number, projectDescription, demoDate, demoTime } = fields;
+      const { fullName, email, studentId, number, projectDescription, demoTime } = fields;
 
       // Check if all required fields are present
-      if (!fullName || !email || !studentId || !number || !projectDescription || !demoDate || !demoTime) {
+      if (!fullName || !email || !studentId || !number || !projectDescription || !demoTime) {
         return res.status(400).json({ error: "Missing required fields" });
       }
 
@@ -102,7 +102,7 @@ router.post("/students", async (req, res) => {
         return res.status(400).json({ error: "Phone number must be in the format 999-999-9999" });
       }
 
-      const demo_slot = `${demoDate} ${demoTime}`;
+     // const demo_slot = `${demoDate} ${demoTime}`;
 
       // Insert the student into the database
       await sql`
