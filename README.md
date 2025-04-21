@@ -1,4 +1,18 @@
 # Student Registration Demo
+This project is a web-based registration system for student project demonstrations. It allows students to register for available time slots to present their projects.
+Features
+
+Student registration form with validation
+Dynamic display of available time slots
+Database storage of registration data
+View of all registered students
+
+#Technology Stack (In-Depth Explanation Below)
+
+Frontend: HTML, CSS, JavaScript
+Backend: PHP
+Database: PostgreSQL (Neon)
+Hosting: Vercel
 
 ## Running
 
