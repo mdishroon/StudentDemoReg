@@ -1,5 +1,30 @@
 // This file handles all of the server-side logic for the application.
+//testing
+// Add this function to the top of your server.js
+async function testDatabaseConnection() {
+	try {
+	  console.log("Testing database connection...");
+	  console.log("Database URL:", process.env.DATABASE_URL.replace(/:([^:@]+)@/, ':***@')); // Hide password
+	  
+	  const testResult = await sql`SELECT NOW() as server_time`;
+	  console.log("Database connection successful! Server time:", testResult[0].server_time);
+	  return true;
+	} catch (error) {
+	  console.error("DATABASE CONNECTION ERROR:");
+	  console.error(error);
+	  return false;
+	}
+  }
+  
+  // Call this before initializing the server
+  testDatabaseConnection().then(connected => {
+	if (!connected) {
+	  console.error("WARNING: Application starting without database connection!");
+	}
+  });
 
+  // testing complete after this
+  
 import fs from "node:fs/promises";
 
 // Server (https://expressjs.com/)
