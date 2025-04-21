@@ -54,12 +54,12 @@ header {
 }
 
 header h1 {
-    color: #2c3e50;
+    color: #502c44;
     margin-bottom: 10px;
 }
 
 header p {
-    color: #7f8c8d;
+    color: #8d7f8a;
     font-size: 1.1em;
 }
 
@@ -85,9 +85,9 @@ input, select, textarea {
 }
 
 input:focus, select:focus, textarea:focus {
-    border-color: #3498db;
+    border-color: #db34a9;
     outline: none;
-    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+    box-shadow: 0 0 0 2px rgba(219, 52, 191, 0.2);
 }
 
 /* Checkbox specific styling */
@@ -130,7 +130,7 @@ button:active {
     position:relative;
     justify-content: center;
     margin-bottom: 30px;
-    background-color: #3498db;
+    background-color: #db34a9;
     color: white;
     flex-grow: 2;
     margin-left: 10px;
@@ -138,7 +138,7 @@ button:active {
 }
 
 #listBtn:hover {
-    background-color: #2980b9;
+    background-color: #aa1e80;
 }
 
 #backBtn {
@@ -150,14 +150,14 @@ button:active {
 }
 
 #submitBtn {
-    background-color: #3498db;
+    background-color: #db34a9;
     color: white;
     flex-grow: 2;
     margin-right: 10px;
 }
 
 #submitBtn:hover {
-    background-color: #2980b9;
+    background-color: #b9228c;
 }
 
 #resetBtn {
