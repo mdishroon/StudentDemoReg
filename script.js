@@ -8,44 +8,49 @@ document.addEventListener('DOMContentLoaded', async function() {
 async function loadDemoTimeSlots() {
     try {
         const demoTimeSelect = document.getElementById('demoTime');
-        if (!demoTimeSelect) return; // Not on registration page
-        
+        if (!demoTimeSelect) {
+            console.error('Dropdown element not found');
+            return;
+        }
+
         // Clear previous options, keeping only the placeholder
         while (demoTimeSelect.options.length > 1) {
             demoTimeSelect.remove(1);
         }
-        
+
         const response = await fetch('/api/demo-slots');
+        console.log('Response status:', response.status); // Debugging
         if (!response.ok) throw new Error('Failed to fetch demo slots');
-        
+
         const slots = await response.json();
-        
+        console.log('Fetched slots:', slots); // Debugging
+
         slots.forEach(slot => {
             const option = document.createElement('option');
             const dateTime = new Date(slot.time);
-            
+
             // Format the date and time
             const date = dateTime.toLocaleDateString('en-US', { 
                 weekday: 'short', 
                 month: 'short', 
                 day: 'numeric' 
             });
-            
+
             const time = dateTime.toLocaleTimeString('en-US', { 
                 hour: '2-digit', 
                 minute: '2-digit'
             });
-            
+
             // Show available spots
             const availableSpots = slot.capacity - slot.booked;
             const availabilityText = availableSpots > 0 
                 ? `(${availableSpots} spots available)` 
                 : '(FULL)';
-            
+
             option.value = slot.id;
             option.text = `${date}, ${time} ${availabilityText}`;
             option.disabled = availableSpots <= 0;
-            
+
             demoTimeSelect.appendChild(option);
         });
     } catch (err) {
